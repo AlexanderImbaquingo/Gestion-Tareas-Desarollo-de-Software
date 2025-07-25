@@ -15,7 +15,7 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new UsuarioViewModel());
         }
 
         public IActionResult Privacy()

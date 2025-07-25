@@ -1,8 +1,42 @@
-﻿
+﻿@model IEnumerable<GestionTareasDesarolloSoftware.API.Models.Proyecto>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Proyectos";
 }
 
-<h1>Index</h1>
+<h1>Proyectos</h1>
+
 <p>
-    <a asp-action="Create" class="btn btn-primary">Crear nuevo Proyecto</a>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo Proyecto</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.descripcion)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaInicio)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaEntrega)</th>
+            <th>@Html.DisplayNameFor(model => model.estado)</th>
+            <th>@Html.DisplayNameFor(model => model.usuarioId)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.nombre)</td>
+            <td>@Html.DisplayFor(modelItem => item.descripcion)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaInicio)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaEntrega)</td>
+            <td>@Html.DisplayFor(modelItem => item.estado)</td>
+            <td>@Html.DisplayFor(modelItem => item.usuarioId)</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info btn-sm">Detalles</a>
+                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-primary btn-sm">Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,15 @@
+@model IEnumerable<IGrouping<int?, GestionTareasDesarolloSoftware.API.Models.Tarea>>
+@{
+    ViewData["Title"] = "Tareas agrupadas por Usuario";
+}
+<h1>Tareas agrupadas por Usuario</h1>
+@foreach (var grupo in Model)
+{
+    <h3>Usuario ID: @grupo.Key</h3>
+    <ul>
+    @foreach (var tarea in grupo)
+    {
+        <li>@tarea.nombre - @tarea.estado</li>
+    }
+    </ul>
+}

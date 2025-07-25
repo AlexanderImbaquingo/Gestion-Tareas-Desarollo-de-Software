@@ -1,7 +1,52 @@
-﻿
+﻿@model IEnumerable<GestionTareasDesarolloSoftware.API.Models.Tarea>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tareas";
 }
 
-<h1>Index</h1>
+<h1>Tareas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nueva Tarea</a>
+</p>
+
+<div class="mb-3">
+    <a asp-action="Reporte" class="btn btn-info">Reporte de Tareas</a>
+    <a asp-action="BuscarAgrupado" asp-route-agruparPor="proyecto" class="btn btn-secondary">Tareas por Proyecto</a>
+    <a asp-action="BuscarAgrupado" asp-route-agruparPor="usuario" class="btn btn-secondary">Tareas por Usuario</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.descripcion)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaInicio)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaLimite)</th>
+            <th>@Html.DisplayNameFor(model => model.estado)</th>
+            <th>@Html.DisplayNameFor(model => model.usuarioId)</th>
+            <th>@Html.DisplayNameFor(model => model.proyectoId)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.nombre)</td>
+            <td>@Html.DisplayFor(modelItem => item.descripcion)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaInicio)</td>
+            <td>@Html.DisplayFor(modelItem => item.FechaLimite)</td>
+            <td>@Html.DisplayFor(modelItem => item.estado)</td>
+            <td>@Html.DisplayFor(modelItem => item.usuarioId)</td>
+            <td>@Html.DisplayFor(modelItem => item.proyectoId)</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info btn-sm">Detalles</a>
+                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-primary btn-sm">Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
 

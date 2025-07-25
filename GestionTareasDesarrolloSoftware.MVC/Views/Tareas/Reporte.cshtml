@@ -1,0 +1,41 @@
+@model IEnumerable<GestionTareasDesarolloSoftware.API.Models.Tarea>
+@{
+    ViewData["Title"] = "Reporte de Tareas";
+    var estadoSeleccionado = Context.Request.Query["estado"].ToString();
+    var ordenSeleccionado = Context.Request.Query["orden"].ToString();
+}
+<h1>Reporte de Tareas</h1>
+<form method="get">
+    <label>Estado:</label>
+    <select name="estado">
+        <option value="" selected="@(string.IsNullOrEmpty(estadoSeleccionado) ? "selected" : null)">Todos</option>
+        <option value="Pendiente" selected="@(estadoSeleccionado == "Pendiente" ? "selected" : null)">Pendiente</option>
+        <option value="En Progreso" selected="@(estadoSeleccionado == "En Progreso" ? "selected" : null)">En Progreso</option>
+        <option value="Completada" selected="@(estadoSeleccionado == "Completada" ? "selected" : null)">Completada</option>
+    </select>
+    <label>Ordenar por:</label>
+    <select name="orden">
+        <option value="FechaLimite" selected="@(ordenSeleccionado == "FechaLimite" ? "selected" : null)">Fecha de Vencimiento</option>
+        <option value="FechaInicio" selected="@(ordenSeleccionado == "FechaInicio" ? "selected" : null)">Fecha de Inicio</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Fecha Limite</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var tarea in Model)
+    {
+        <tr>
+            <td>@tarea.nombre</td>
+            <td>@tarea.estado</td>
+            <td>@tarea.FechaLimite.ToShortDateString()</td>
+        </tr>
+    }
+    </tbody>
+</table>

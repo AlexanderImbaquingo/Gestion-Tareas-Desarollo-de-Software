@@ -1,11 +1,14 @@
 ﻿using GestionTareasDesarolloSoftware.API.Models;
 using GestionTareasDesarrolloSoftware.APIConsumer;
+using GestionTareasDesarrolloSoftware.MVC.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestionTareasDesarrolloSoftware.MVC.Controllers
 {
+    [AuthRequired]
     public class ProyectosController : Controller
     {
         // GET: ProyectosController
@@ -24,25 +27,31 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
         // GET: ProyectosController/Create
         public ActionResult Create()
         {
-
+            var usuarios = Crud<Usuario>.GetAll();
+            ViewBag.Usuarios = new SelectList(usuarios, "id", "nombre");
             return View();
         }
 
         // POST: ProyectosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Proyecto data)
+        public ActionResult Create(Proyecto proyecto)
         {
             try
             {
-                Crud<Proyecto>.Create(data);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    Crud<Proyecto>.Create(proyecto);
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(data);
             }
+            var usuarios = Crud<Usuario>.GetAll();
+            ViewBag.Usuarios = new SelectList(usuarios, "id", "nombre");
+            return View(proyecto);
         }
 
         // GET: ProyectosController/Edit/5

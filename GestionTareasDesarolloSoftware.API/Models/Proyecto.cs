@@ -8,6 +8,7 @@
         public DateTime FechaInicio { get; set; }
         public DateTime FechaEntrega { get; set; }
         public string estado { get; set; }
+        public int? usuarioId { get; set; }
         public ICollection<Tarea> Tareas { get; set; } = new List<Tarea>();
     }
 }

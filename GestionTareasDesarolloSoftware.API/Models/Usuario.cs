@@ -12,5 +12,7 @@ namespace GestionTareasDesarolloSoftware.API.Models
         [Required]
         [DataType(DataType.Password)]
         public string passwordHash { get; set; }
+        public ICollection<Tarea> Tareas { get; set; } = new List<Tarea>();
+        public ICollection<Proyecto> Proyectos { get; set; } = new List<Proyecto>();
     }
 }

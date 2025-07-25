@@ -3,11 +3,6 @@ using GestionTareasDesarolloSoftware.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data.Common;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GestionTareasDesarolloSoftware.API.Controllers
 {
@@ -26,7 +21,6 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
 
         // GET: api/Usuarios
         [HttpGet]
-        [Authorize]
         public IEnumerable<dynamic> Get()
         {
             var usuarios = connection.Query<Usuario>("SELECT * FROM Usuarios").ToList();
@@ -78,39 +72,6 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
         public void Delete(int id)
         {
             connection.Execute("DELETE FROM Usuarios WHERE id = @id", new { id });
-        }
-
-        // POST api/Usuarios/login
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] Usuario login)
-        {
-            var usuario = connection.QuerySingleOrDefault<Usuario>(
-                "SELECT * FROM Usuarios WHERE email = @email", new { login.email });
-
-            if (usuario == null || usuario.passwordHash != login.passwordHash)
-                return Unauthorized("Usuario o contraseña incorrectos");
-
-            var jwtKey = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Key"];
-            var jwtIssuer = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["Jwt:Issuer"];
-
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, usuario.id.ToString()),
-                new Claim(ClaimTypes.Name, usuario.nombre),
-                new Claim(ClaimTypes.Email, usuario.email)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: jwtIssuer,
-                audience: null,
-                claims: claims,
-                expires: DateTime.Now.AddHours(2),
-                signingCredentials: creds);
-
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
     }
 }

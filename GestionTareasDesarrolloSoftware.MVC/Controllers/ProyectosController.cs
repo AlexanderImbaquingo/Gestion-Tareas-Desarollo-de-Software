@@ -1,6 +1,5 @@
 ﻿using GestionTareasDesarolloSoftware.API.Models;
 using GestionTareasDesarrolloSoftware.APIConsumer;
-using GestionTareasDesarrolloSoftware.MVC.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,7 +7,6 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestionTareasDesarrolloSoftware.MVC.Controllers
 {
-    [AuthRequired]
     public class ProyectosController : Controller
     {
         // GET: ProyectosController
@@ -21,7 +19,8 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
         // GET: ProyectosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var data = Crud<Proyecto>.GetById(id);
+            return View(data);
         }
 
         // GET: ProyectosController/Create
@@ -58,6 +57,8 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
         public ActionResult Edit(int id)
         {
             var data = Crud<Proyecto>.GetById(id);
+            var usuarios = Crud<Usuario>.GetAll();
+            ViewBag.Usuarios = new SelectList(usuarios, "id", "nombre", data.usuarioId);
             return View(data);
         }
 
@@ -74,6 +75,8 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                var usuarios = Crud<Usuario>.GetAll();
+                ViewBag.Usuarios = new SelectList(usuarios, "id", "nombre", data.usuarioId);
                 return View(data);
             }
         }
@@ -82,7 +85,7 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
         public ActionResult Delete(int id)
         {
             var data = Crud<Proyecto>.GetById(id);  
-            return View();
+            return View(data);
         }
 
         // POST: ProyectosController/Delete/5

@@ -1,13 +1,10 @@
 ﻿using GestionTareasDesarolloSoftware.API.Models;
 using GestionTareasDesarrolloSoftware.APIConsumer;
-using GestionTareasDesarrolloSoftware.MVC.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestionTareasDesarrolloSoftware.MVC.Controllers
 {
-    [AuthRequired]
     public class TareasController : Controller
     {
         // GET: TareasController
@@ -20,8 +17,8 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
         // GET: TareasController/Details/5
         public ActionResult Details(int id)
         {
-
-            return View();
+            var data = Crud<Tarea>.GetById(id);
+            return View(data);
         }
 
         // GET: TareasController/Create
@@ -94,6 +91,7 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
                 return View(data);
             }
         }
+        
         public ActionResult Reporte(string estado, string orden = "FechaLimite")
         {
             var tareas = Crud<Tarea>.GetAll();
@@ -110,6 +108,7 @@ namespace GestionTareasDesarrolloSoftware.MVC.Controllers
 
             return View(tareas);
         }
+        
         public ActionResult BuscarAgrupado(string agruparPor = "proyecto")
         {
             var tareas = Crud<Tarea>.GetAll();

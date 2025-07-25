@@ -32,12 +32,9 @@ namespace GestionTareasDesarolloSoftware.API
             });
 
             // Add services to the container.
-            builder.Services.AddSession();
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDistributedMemoryCache();
 
             var app = builder.Build();
 
@@ -49,11 +46,7 @@ namespace GestionTareasDesarolloSoftware.API
             }
 
             app.UseHttpsRedirection();
-
-            app.UseAuthentication(); 
             app.UseAuthorization();
-            app.UseSession();
-
             app.MapControllers();
 
             app.Run();

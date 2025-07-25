@@ -20,7 +20,7 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
             connection.Open();
         }
 
-        // GET: api/Proyectos
+        // GET: api/Tareas
         [HttpGet]
         public IEnumerable<dynamic> Get()
         {
@@ -28,7 +28,7 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
             return tareas;
         }
 
-        // GET api/Proyectos/5
+        // GET api/Tareas/5
         [HttpGet("{id}")]
         public dynamic Get(int id)
         {
@@ -37,12 +37,12 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
             return tarea;
         }
 
-        // POST api/Proyectos
+        // POST api/Tareas
         [HttpPost]
         public dynamic Post([FromBody] Tarea tarea)
         {
             connection.Execute(
-                "INSERT INTO Tareas (nombre, descripcion, FechaInicio, FechaLimite, estado, usuarioId) VALUES (@nombre, @descripcion, @FechaInicio, @FechaLimite, @estado, @usuarioId)",
+                "INSERT INTO Tareas (nombre, descripcion, FechaInicio, FechaLimite, estado, usuarioId, proyectoId) VALUES (@nombre, @descripcion, @FechaInicio, @FechaLimite, @estado, @usuarioId, @proyectoId)",
                 new
                 {
                     tarea.nombre,
@@ -50,17 +50,18 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
                     tarea.FechaInicio,
                     tarea.FechaLimite,
                     tarea.estado,
-                    tarea.usuarioId
+                    tarea.usuarioId,
+                    tarea.proyectoId
                 });
             return tarea;
         }
 
-        // PUT api/Proyectos/5
+        // PUT api/Tareas/5
         [HttpPut("{id}")]
         public dynamic Put(int id, [FromBody] Tarea tarea)
         {
             connection.Execute(
-                "UPDATE Tareas SET nombre = @nombre, descripcion = @descripcion, FechaInicio = @FechaInicio, FechaLimite = @FechaLimite, estado = @estado, usuarioId = @usuarioId WHERE id = @id",
+                "UPDATE Tareas SET nombre = @nombre, descripcion = @descripcion, FechaInicio = @FechaInicio, FechaLimite = @FechaLimite, estado = @estado, usuarioId = @usuarioId, proyectoId = @proyectoId WHERE id = @id",
                 new
                 {
                     id,
@@ -69,12 +70,13 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
                     tarea.FechaInicio,
                     tarea.FechaLimite,
                     tarea.estado,
-                    tarea.usuarioId
+                    tarea.usuarioId,
+                    tarea.proyectoId
                 });
             return tarea;
         }
 
-        // DELETE api/Proyectos/5
+        // DELETE api/Tareas/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

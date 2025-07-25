@@ -41,14 +41,15 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
         public dynamic Post([FromBody] Proyecto proyecto)
         {
             connection.Execute(
-                "INSERT INTO Proyectos (nombre, descripcion, FechaInicio, FechaEntrega, estado) VALUES (@nombre, @descripcion, @FechaInicio, @FechaEntrega, @estado)",
+                "INSERT INTO Proyectos (nombre, descripcion, FechaInicio, FechaEntrega, estado, usuarioId) VALUES (@nombre, @descripcion, @FechaInicio, @FechaEntrega, @estado, @usuarioId)",
                 new
                 {
                     proyecto.nombre,
                     proyecto.descripcion,
                     proyecto.FechaInicio,
                     proyecto.FechaEntrega,
-                    proyecto.estado
+                    proyecto.estado,
+                    proyecto.usuarioId
                 });
             return proyecto;
         }
@@ -58,7 +59,7 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
         public dynamic Put(int id, [FromBody] Proyecto proyecto)
         {
             connection.Execute(
-                "UPDATE Proyectos SET nombre = @nombre, descripcion = @descripcion, FechaCreacion = @FechaCreacion, FechaLimite = @FechaLimite, estado = @estado WHERE id = @id",
+                "UPDATE Proyectos SET nombre = @nombre, descripcion = @descripcion, FechaInicio = @FechaInicio, FechaEntrega = @FechaEntrega, estado = @estado, usuarioId = @usuarioId WHERE id = @id",
                 new
                 {
                     id,
@@ -66,7 +67,8 @@ namespace GestionTareasDesarolloSoftware.API.Controllers
                     proyecto.descripcion,
                     proyecto.FechaInicio,
                     proyecto.FechaEntrega,
-                    proyecto.estado
+                    proyecto.estado,
+                    proyecto.usuarioId
                 });
             return proyecto;
         }
